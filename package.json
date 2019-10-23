@@ -12,7 +12,9 @@
   "dependencies": {
     "async": "^3.1.0",
     "axios": "^0.19.0",
-    "lodash": "^4.17.15"
+    "chromedriver": "^77.0.0",
+    "lodash": "^4.17.15",
+    "selenium-webdriver": "^4.0.0-alpha.5"
   },
   "devDependencies": {
     "cucumber": "^6.0.2",
