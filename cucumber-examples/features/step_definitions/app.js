@@ -1,4 +1,4 @@
-const { After, Before, Then, When, defineParameterType, ParameterType } = require('cucumber')
+const { After, Before, Then, When, defineParameterType, ParameterType, until } = require('cucumber')
 const { Builder, By } = require('selenium-webdriver')
 const assert = require('assert')
 require('chromedriver')
@@ -16,6 +16,7 @@ After({tags: '@App'}, async function() {
 })
 
 When('I view the app in the browser', async function() {
+  await driver.manage().setTimeouts( { implicit: 10000 } );
   await driver.get('file://K:\\Haemimont\\js-testing-tutorial\\cucumber-examples\\app\\index.html')
 })
 
@@ -82,6 +83,42 @@ Then('I {seeOrDont} the main app content', async function(shouldBeVisible) {
   } else {
     assert(element == null)
   }
+})
+
+Then('I see the error message {string}', async function(message) {
+  // await driver.wait(() => driver.findElement(By.className('error-message')), 5000)
+  let element = await driver.findElement(By.className('error-message'))
+  // let element = await driver.wait(until.elementLocated(By.className('error-message')), 10000);
+  let elementText = await element.getText()
+
+  assert(message == elementText)
+})
+
+When('I click the {string} nav item', async function(menuItemText) {
+  let menuItems = await driver.findElements(By.css('.menu-list li'))
+  // let found = await menuItems.find(async function(item) {
+  //   let inner = await item.getText()
+  //   console.log(menuItemText, inner, inner == menuItemText)
+  //   return inner == menuItemText
+  // })
+  let found
+  for(let i=0; i< menuItems.length; i++) {
+    let item = menuItems[i]
+    let inner = await item.getText()
+    if(inner == menuItemText) {
+      found = item
+      break
+    }
+  }
+  let t = await found.getText()
+  console.log(menuItems.length, menuItemText, t)
+  found.click()
+})
+
+Then('I see the {string} main content', async function(mainContentText) {
+  let foundText = await driver.findElement(By.className('view-content')).getText()
+
+  assert(foundText == mainContentText)
 })
 
 

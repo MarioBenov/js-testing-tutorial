@@ -42,7 +42,7 @@ class Login extends React.Component {
       if(this.state.username == 'noUser') {
         return this.setState({errorMessage: 'User does not exist'})
       }
-      if(this.state.username != 'testUser' && this.state.password != 'testPassword') {
+      if(this.state.username != 'testUser' || this.state.password != 'testPassword') {
         return this.setState({errorMessage: 'Incorrect username/password'})
       }
 
