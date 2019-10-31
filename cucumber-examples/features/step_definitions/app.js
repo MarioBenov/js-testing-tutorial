@@ -59,13 +59,22 @@ async function findButton(btnText) {
 
 When('I login with username {string} and password {string}', async function(username, password) {
   let nameInput = await driver.findElement(By.css('.login-form .field:first-child input'))
-  await nameInput.sendKeys(username)
+  //await nameInput.sendKeys(username)
 
   let passInput = await driver.findElement(By.css('.login-form .field:nth-child(2) input'))
-  await passInput.sendKeys(password)
+  //await passInput.sendKeys(password)
 
   let loginBtn = await findButton('Login')
-  await loginBtn.click()
+  //await loginBtn.click()
+
+  let actions = driver.actions()
+  await actions
+    .click(nameInput)
+    .sendKeys(username)
+    .click(passInput)
+    .sendKeys(password)
+    .click(loginBtn)
+    .perform()
 })
 
 defineParameterType({
